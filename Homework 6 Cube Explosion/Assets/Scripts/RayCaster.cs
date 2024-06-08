@@ -7,11 +7,13 @@ public class RayCaster : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private CubeSpawner _cubeSpawner;
     [SerializeField] private CubeExplosion _cubeExplosion;
+    [SerializeField] private ExplosionToDelete _explosionToDelete;
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
+
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit))
@@ -25,6 +27,10 @@ public class RayCaster : MonoBehaviour
                         List<Cube> newCubes = _cubeSpawner.SpawnCubes(cube);
 
                         _cubeExplosion.Explode(newCubes, cube.transform.position);
+                    }
+                    else
+                    {
+                        _explosionToDelete.Explode(cube);
                     }
 
                     Destroy(cube.gameObject);
